@@ -89,10 +89,10 @@ public class CopyTaggingsFromOneFileToOther {
 			Boolean tag = extractionsSecondFile.get(words[0].trim());
 			
 			if(tag == true) {
-				output.add(words[0] + " === T");
+				output.add(words[0] + "=== T");
 			}
 			else {
-				output.add(words[0] + " === F");
+				output.add(words[0] + "=== F");
 			}
 		}
 		

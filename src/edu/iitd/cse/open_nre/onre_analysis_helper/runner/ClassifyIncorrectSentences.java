@@ -22,6 +22,7 @@ public class ClassifyIncorrectSentences {
 		List<String> lines = OnreIO.readFile(inputFile);
 		Map<Integer, Integer> correctlyClassified = new HashMap<>();
 		Map<Integer, Integer> incorrectlyClassified = new HashMap<>();
+		Map<Integer, Integer> patternCounts = new HashMap<>();
 		Map<Integer, Double> precisionMap = new TreeMap<>();
 		
 		int lineCount = 0;
@@ -34,17 +35,23 @@ public class ClassifyIncorrectSentences {
 				
 				++lineCount;
 				String nextLine = lines.get(lineCount); // get the next line
+				if(!patternCounts.containsKey(patternNumber)) {
+					patternCounts.put(patternNumber, 1);
+				}
+				else {
+					patternCounts.put(patternNumber, patternCounts.get(patternNumber)+1);
+				}
 				words = nextLine.split("===");
 				
-				populateMaps(correctlyClassified, incorrectlyClassified, patternNumber, words[words.length-1]);
+				//populateMaps(correctlyClassified, incorrectlyClassified, patternNumber, words[words.length-1]);
 			}
 			++lineCount;
 		}
 		
-		buildPrecisionMap(correctlyClassified, incorrectlyClassified, precisionMap);
+		//buildPrecisionMap(correctlyClassified, incorrectlyClassified, precisionMap);
 		
 		String outputFile = args[1];
-		writeCountsToFile(outputFile, correctlyClassified, incorrectlyClassified, precisionMap);
+		writeCountsToFile(outputFile, patternCounts, correctlyClassified, incorrectlyClassified, precisionMap);
 	}
 	
 	private static void buildPrecisionMap(Map<Integer, Integer> correctlyClassified, Map<Integer, Integer> incorrectlyClassified, 
@@ -109,7 +116,7 @@ public class ClassifyIncorrectSentences {
 		}
 	}
 	
-	private static void writeCountsToFile(String outputFile, Map<Integer, Integer> correctlyClassified, 
+	private static void writeCountsToFile(String outputFile, Map<Integer, Integer> patternCounts, Map<Integer, Integer> correctlyClassified, 
 			Map<Integer, Integer> incorrectlyClassified, Map<Integer, Double> precisionMap) throws FileNotFoundException {
 		
 		PrintWriter pw = new PrintWriter(outputFile);
@@ -138,6 +145,13 @@ public class ClassifyIncorrectSentences {
 			
 			pw.println(patternNumber + ";" + correctCount + ";" + incorrectCount + ";" + precision
 					+ ";" + cumulativeCorrectCount + ";" + cumulativeIncorrectCount + ";" + cumulativePrecision);
+		}
+		
+		for(Integer patternNumber : patternCounts.keySet()) {
+			
+			Integer count = patternCounts.get(patternNumber);
+			
+			pw.println(patternNumber + ";" + count);
 		}
 		pw.close();
 	}
