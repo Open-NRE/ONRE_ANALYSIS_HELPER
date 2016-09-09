@@ -20,7 +20,6 @@ import edu.iitd.cse.open_nre.onre.helper.OnreHelper_WordNet;
 import edu.iitd.cse.open_nre.onre.utils.OnreIO;
 import edu.iitd.cse.open_nre.onre.utils.OnreUtils_number;
 import edu.iitd.cse.open_nre.onre.utils.OnreUtils_string;
-import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 
 /**
  * @author swarna
