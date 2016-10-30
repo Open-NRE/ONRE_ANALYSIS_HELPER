@@ -116,6 +116,12 @@ public class CleanPatterns {
 			
 			for(String synonym : synonyms) {
 				newWords.add(synonym); // try adding inflected words of synonyms as well
+				Set<String> inflectedWordsOfSyns = stemmedWordToInflectedWordsMap.get(synonym);
+				if(inflectedWordsOfSyns != null) {
+					for(String inflectedWord : inflectedWordsOfSyns) {
+						newWords.add(inflectedWord);
+					}
+				}
 			}
 			
 			String appendedWord = "";
